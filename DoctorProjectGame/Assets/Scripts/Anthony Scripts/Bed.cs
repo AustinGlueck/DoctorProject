@@ -8,6 +8,8 @@ public class Bed : MonoBehaviour
 
     //Patient
     public string patientName = "Joe";
+    public string patientSymptoms = "symptoms";
+    public string patientInfo = "info";
     [SerializeField] private bool hasPatient = false;
     private bool viewingPatient = false;
 
@@ -52,11 +54,10 @@ public class Bed : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && IsContactWithPatient() && !CheckPlayerIsViewingChart())
         {
-            print(Screen.width);
             if (!viewingPatient && !CheckCurrentlyViewingScreen())
             {
                 viewingPatient = true;
-                ScreenManager.Instance.ViewPatientScreen(patientName);
+                ScreenManager.Instance.ViewPatientScreen(patientName, patientSymptoms, patientInfo);
             }
             else if (viewingPatient && CheckCurrentlyViewingScreen())
             {

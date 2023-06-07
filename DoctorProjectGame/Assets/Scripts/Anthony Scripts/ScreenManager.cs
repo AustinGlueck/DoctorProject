@@ -10,7 +10,9 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] private GameObject blackBackground;
     [SerializeField] private Image patientScreenChart;
-    [SerializeField] private TextMeshProUGUI patientScreenChartText;
+    [SerializeField] private TextMeshProUGUI patientNameText;
+    [SerializeField] private TextMeshProUGUI patientSymptomText;
+    [SerializeField] private TextMeshProUGUI patientInfoText;
     private bool viewingScreen = false;
     private bool viewingPatient = false;
     private bool viewingAlchemy = false;
@@ -24,7 +26,7 @@ public class ScreenManager : MonoBehaviour
         patientScreenChart.gameObject.SetActive(false);
     }
 
-    public void ViewPatientScreen(string str)
+    public void ViewPatientScreen(string name, string symptoms, string info)
     {
         if (!viewingScreen && !viewingPatient && !CheckPlayerIsViewingChart())
         {
@@ -32,7 +34,9 @@ public class ScreenManager : MonoBehaviour
             viewingPatient = true;
             PlayerController.Instance.SetPlayerMovement(false);
             blackBackground.SetActive(true);
-            patientScreenChartText.text = str;
+            patientNameText.text = name;
+            patientSymptomText.text = symptoms;
+            patientInfoText.text = info;
             patientScreenChart.gameObject.SetActive(true);
             JournalAndChart.Instance.ToggleButtons();
         }
