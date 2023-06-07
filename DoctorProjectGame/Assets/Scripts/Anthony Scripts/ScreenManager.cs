@@ -12,6 +12,9 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private Image patientScreenChart;
     [SerializeField] private TextMeshProUGUI patientScreenChartText;
     private bool viewingScreen = false;
+    private bool viewingPatient = false;
+    private bool viewingAlchemy = false;
+
     public bool IsViewingScreen() { return viewingScreen; }
 
     private void Awake()
@@ -23,9 +26,10 @@ public class ScreenManager : MonoBehaviour
 
     public void ViewPatientScreen(string str)
     {
-        if (!viewingScreen && !CheckPlayerIsViewingChart())
+        if (!viewingScreen && !viewingPatient && !CheckPlayerIsViewingChart())
         {
             viewingScreen = true;
+            viewingPatient = true;
             PlayerController.Instance.SetPlayerMovement(false);
             blackBackground.SetActive(true);
             patientScreenChartText.text = str;
@@ -36,12 +40,13 @@ public class ScreenManager : MonoBehaviour
 
     public void ResetPatientScreen()
     {
-        if (viewingScreen)
+        if (viewingScreen && viewingPatient)
         {
             patientScreenChart.gameObject.SetActive(false);
             //patientScreenChart.sprite = null;
             blackBackground.SetActive(false);
             PlayerController.Instance.SetPlayerMovement(true);
+            viewingPatient = false;
             viewingScreen = false;
             JournalAndChart.Instance.ToggleButtons();
         }
@@ -49,10 +54,11 @@ public class ScreenManager : MonoBehaviour
 
     public void EnterAlchemyScreen()
     {
-        if (!viewingScreen)
+        if (!viewingScreen && !viewingAlchemy)
         {
             PlayerController.Instance.SetPlayerMovement(false);
             viewingScreen = true;
+            viewingAlchemy = true;
             JournalAndChart.Instance.ToggleButtons();
             blackBackground.SetActive(true);
         }
@@ -60,10 +66,11 @@ public class ScreenManager : MonoBehaviour
 
     public void ExitAlchemyScreen()
     {
-        if (viewingScreen)
+        if (viewingScreen && viewingAlchemy)
         {
             blackBackground.SetActive(false);
             JournalAndChart.Instance.ToggleButtons();
+            viewingAlchemy = false;
             viewingScreen = false;
             PlayerController.Instance.SetPlayerMovement(true);
         }

@@ -52,6 +52,7 @@ public class Bed : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && IsContactWithPatient() && !CheckPlayerIsViewingChart())
         {
+            print(Screen.width);
             if (!viewingPatient && !CheckCurrentlyViewingScreen())
             {
                 viewingPatient = true;
