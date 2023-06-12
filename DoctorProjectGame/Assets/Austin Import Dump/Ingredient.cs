@@ -11,6 +11,7 @@ public class Ingredient : MonoBehaviour
     public Image image;
     public Sprite rawSprite;
     public Sprite crushedSprite;
+    public Sprite ruinedSprite;
     public enum IngredientState { Raw, Crushed, Boiled, Distilled, Radiated, Ruined};
     public IngredientState ingredientState;
 
@@ -60,6 +61,10 @@ public class Ingredient : MonoBehaviour
         if(ingredientState == IngredientState.Radiated)
         {
             image.sprite = radiatedSprite;
+        }
+        if(ingredientState == IngredientState.Ruined)
+        {
+            image.sprite = ruinedSprite;
         }
     }
 
