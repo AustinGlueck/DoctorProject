@@ -18,6 +18,8 @@ public class ScreenManager : MonoBehaviour
     private bool viewingPatient = false;
     private bool viewingAlchemy = false;
 
+    [SerializeField] private Canvas alchemyCanvas;
+
     public bool IsViewingScreen() { return viewingScreen; }
 
     private void Awake()
@@ -26,6 +28,7 @@ public class ScreenManager : MonoBehaviour
         blackBackground.SetActive(false);
         patientScreen.gameObject.SetActive(false);
         patientScreenChart.gameObject.SetActive(false);
+        alchemyCanvas.gameObject.SetActive(false);
     }
 
     public void ViewPatientScreen(Sprite spr, string name, string symptoms, string info)
@@ -71,6 +74,7 @@ public class ScreenManager : MonoBehaviour
             viewingAlchemy = true;
             JournalAndChart.Instance.ToggleButtons();
             blackBackground.SetActive(true);
+            alchemyCanvas.gameObject.SetActive(true);
         }
     }
 
@@ -78,6 +82,7 @@ public class ScreenManager : MonoBehaviour
     {
         if (viewingScreen && viewingAlchemy)
         {
+            alchemyCanvas.gameObject.SetActive(false);
             blackBackground.SetActive(false);
             JournalAndChart.Instance.ToggleButtons();
             viewingAlchemy = false;
