@@ -9,6 +9,7 @@ public class ScreenManager : MonoBehaviour
     public static ScreenManager Instance { get; private set; }
 
     [SerializeField] private GameObject blackBackground;
+    [SerializeField] private Image patientScreen;
     [SerializeField] private Image patientScreenChart;
     [SerializeField] private TextMeshProUGUI patientNameText;
     [SerializeField] private TextMeshProUGUI patientSymptomText;
@@ -23,10 +24,11 @@ public class ScreenManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         blackBackground.SetActive(false);
+        patientScreen.gameObject.SetActive(false);
         patientScreenChart.gameObject.SetActive(false);
     }
 
-    public void ViewPatientScreen(string name, string symptoms, string info)
+    public void ViewPatientScreen(Sprite spr, string name, string symptoms, string info)
     {
         if (!viewingScreen && !viewingPatient && !CheckPlayerIsViewingChart())
         {
@@ -34,10 +36,13 @@ public class ScreenManager : MonoBehaviour
             viewingPatient = true;
             PlayerController.Instance.SetPlayerMovement(false);
             blackBackground.SetActive(true);
+
             patientNameText.text = name;
             patientSymptomText.text = symptoms;
             patientInfoText.text = info;
             patientScreenChart.gameObject.SetActive(true);
+            patientScreen.sprite = spr;
+            patientScreen.gameObject.SetActive(true);
             JournalAndChart.Instance.ToggleButtons();
         }
     }
@@ -46,6 +51,7 @@ public class ScreenManager : MonoBehaviour
     {
         if (viewingScreen && viewingPatient)
         {
+            patientScreen.gameObject.SetActive(false);
             patientScreenChart.gameObject.SetActive(false);
             //patientScreenChart.sprite = null;
             blackBackground.SetActive(false);
