@@ -9,6 +9,7 @@ public class ScreenManager : MonoBehaviour
     public static ScreenManager Instance { get; private set; }
 
     [SerializeField] private GameObject blackBackground;
+    [SerializeField] private Image patientScreen;
     [SerializeField] private Image patientScreenChart;
     [SerializeField] private TextMeshProUGUI patientNameText;
     [SerializeField] private TextMeshProUGUI patientSymptomText;
@@ -17,16 +18,20 @@ public class ScreenManager : MonoBehaviour
     private bool viewingPatient = false;
     private bool viewingAlchemy = false;
 
+    [SerializeField] private Canvas alchemyCanvas;
+
     public bool IsViewingScreen() { return viewingScreen; }
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         blackBackground.SetActive(false);
+        patientScreen.gameObject.SetActive(false);
         patientScreenChart.gameObject.SetActive(false);
+        alchemyCanvas.gameObject.SetActive(false);
     }
 
-    public void ViewPatientScreen(string name, string symptoms, string info)
+    public void ViewPatientScreen(Sprite spr, string name, string symptoms, string info)
     {
         if (!viewingScreen && !viewingPatient && !CheckPlayerIsViewingChart())
         {
@@ -34,10 +39,13 @@ public class ScreenManager : MonoBehaviour
             viewingPatient = true;
             PlayerController.Instance.SetPlayerMovement(false);
             blackBackground.SetActive(true);
+
             patientNameText.text = name;
             patientSymptomText.text = symptoms;
             patientInfoText.text = info;
             patientScreenChart.gameObject.SetActive(true);
+            patientScreen.sprite = spr;
+            patientScreen.gameObject.SetActive(true);
             JournalAndChart.Instance.ToggleButtons();
         }
     }
@@ -46,6 +54,7 @@ public class ScreenManager : MonoBehaviour
     {
         if (viewingScreen && viewingPatient)
         {
+            patientScreen.gameObject.SetActive(false);
             patientScreenChart.gameObject.SetActive(false);
             //patientScreenChart.sprite = null;
             blackBackground.SetActive(false);
@@ -65,6 +74,7 @@ public class ScreenManager : MonoBehaviour
             viewingAlchemy = true;
             JournalAndChart.Instance.ToggleButtons();
             blackBackground.SetActive(true);
+            alchemyCanvas.gameObject.SetActive(true);
         }
     }
 
@@ -72,6 +82,7 @@ public class ScreenManager : MonoBehaviour
     {
         if (viewingScreen && viewingAlchemy)
         {
+            alchemyCanvas.gameObject.SetActive(false);
             blackBackground.SetActive(false);
             JournalAndChart.Instance.ToggleButtons();
             viewingAlchemy = false;
