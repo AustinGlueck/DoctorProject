@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class JournalAndChart : MonoBehaviour
 {
     public static JournalAndChart Instance { get; private set; }
+    [SerializeField] private TextMeshProUGUI tooltipSpacebarText;
+    [SerializeField] private TextMeshProUGUI tooltipFkeyText;
 
     //Chart
     [SerializeField] private Image chartObject;
@@ -54,14 +56,30 @@ public class JournalAndChart : MonoBehaviour
     private void Update()
     {
         UpdateChartButton();
-
+        
         KeyPressViewChart();
         KeyPressViewJournal();
     }
 
     private void UpdateChartButton()
     {
+        chartButtonUI.GetComponent<Button>().interactable = holdingChart ? true : false;
         chartButtonImageUI.color = holdingChart ? chartButtonUIColor : greyedOutColor;
+    }
+
+    public void SetTooltipFkeyText(string str)
+    {
+        tooltipFkeyText.text = str;
+    }
+
+    public void ToggleTooltipFkey(bool b)
+    {
+        tooltipFkeyText.gameObject.SetActive(b);
+    }
+
+    public void ToggleTooltipSpacebar(bool b)
+    {
+        tooltipSpacebarText.gameObject.SetActive(b);
     }
 
     private void KeyPressViewChart()

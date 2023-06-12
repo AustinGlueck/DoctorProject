@@ -23,6 +23,7 @@ public class BedManager : MonoBehaviour
             UpdateBedPatient(patient);
         }
     }
+    //
 
     //original method
     public void UpdateBedPatient(Bed bed, string name, string symptoms, string info)
