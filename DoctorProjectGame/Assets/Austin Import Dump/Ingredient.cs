@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Ingredient : MonoBehaviour
 {
     public string ingredientName;
-    public Text ingredientNameBox;
+    public TextMeshProUGUI ingredientNameBox;
     public Image image;
     public Sprite rawSprite;
     public Sprite crushedSprite;
