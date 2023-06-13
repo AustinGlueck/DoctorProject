@@ -14,13 +14,15 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI patientNameText;
     [SerializeField] private TextMeshProUGUI patientSymptomText;
     [SerializeField] private TextMeshProUGUI patientInfoText;
-    private bool viewingScreen = false;
+
     private bool viewingPatient = false;
     private bool viewingAlchemy = false;
 
     [SerializeField] private Canvas alchemyCanvas;
 
-    public bool IsViewingScreen() { return viewingScreen; }
+    public bool IsViewingScreen() { return viewingAlchemy || viewingPatient; }
+    public bool IsViewingAlchemy() { return viewingAlchemy; }
+    public bool IsViewingPatient() { return viewingPatient; }
 
     private void Awake()
     {
@@ -31,11 +33,19 @@ public class ScreenManager : MonoBehaviour
         alchemyCanvas.gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        // temporary exiting for alchemy screen
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ScreenManager.Instance.ExitAlchemyScreen();
+        }
+    }
+
     public void ViewPatientScreen(Sprite spr, string name, string symptoms, string info)
     {
-        if (!viewingScreen && !viewingPatient && !CheckPlayerIsViewingChart())
+        if (!viewingPatient && !CheckPlayerIsViewingChart())
         {
-            viewingScreen = true;
             viewingPatient = true;
             PlayerController.Instance.SetPlayerMovement(false);
             blackBackground.SetActive(true);
@@ -52,7 +62,7 @@ public class ScreenManager : MonoBehaviour
 
     public void ResetPatientScreen()
     {
-        if (viewingScreen && viewingPatient)
+        if (viewingPatient)
         {
             patientScreen.gameObject.SetActive(false);
             patientScreenChart.gameObject.SetActive(false);
@@ -60,17 +70,15 @@ public class ScreenManager : MonoBehaviour
             blackBackground.SetActive(false);
             PlayerController.Instance.SetPlayerMovement(true);
             viewingPatient = false;
-            viewingScreen = false;
             JournalAndChart.Instance.ToggleButtons();
         }
     }
 
     public void EnterAlchemyScreen()
     {
-        if (!viewingScreen && !viewingAlchemy)
+        if (!viewingAlchemy)
         {
             PlayerController.Instance.SetPlayerMovement(false);
-            viewingScreen = true;
             viewingAlchemy = true;
             JournalAndChart.Instance.ToggleButtons();
             blackBackground.SetActive(true);
@@ -80,13 +88,12 @@ public class ScreenManager : MonoBehaviour
 
     public void ExitAlchemyScreen()
     {
-        if (viewingScreen && viewingAlchemy)
+        if (viewingAlchemy)
         {
             alchemyCanvas.gameObject.SetActive(false);
             blackBackground.SetActive(false);
             JournalAndChart.Instance.ToggleButtons();
             viewingAlchemy = false;
-            viewingScreen = false;
             PlayerController.Instance.SetPlayerMovement(true);
         }
     }
