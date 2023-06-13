@@ -12,7 +12,9 @@ public class JournalAndChart : MonoBehaviour
 
     //Chart
     [SerializeField] private Image chartObject;
-    [SerializeField] private TextMeshProUGUI chartObjectText;
+    [SerializeField] private TextMeshProUGUI chartObjectName;
+    [SerializeField] private TextMeshProUGUI chartObjectSymptoms;
+    [SerializeField] private TextMeshProUGUI chartObjectInfo;
     [SerializeField] private bool holdingChart = false;
     private bool viewingChart = false;
     public bool GetHoldingChart() { return holdingChart; }
@@ -48,9 +50,11 @@ public class JournalAndChart : MonoBehaviour
         chartButtonImageUI.color = greyedOutColor;
     }
 
-    public void SetChartData(string str)
+    public void SetChartData(string name, string symptoms, string info)
     {
-        chartObjectText.text = str;
+        chartObjectName.text = name;
+        chartObjectSymptoms.text = symptoms;
+        chartObjectInfo.text = info;
     }
 
     private void Update()
@@ -89,7 +93,7 @@ public class JournalAndChart : MonoBehaviour
 
      public void ViewChart()
     {
-        if (holdingChart && canView && !CheckCurrentlyViewingScreen())
+        if (holdingChart && canView && !CheckCurrentlyViewingPatient())
         {
             viewingChart = !viewingChart;
             chartObject.gameObject.SetActive(viewingChart);
@@ -104,7 +108,7 @@ public class JournalAndChart : MonoBehaviour
 
     public void ViewJournal()
     {
-        if (canView && !CheckCurrentlyViewingScreen())
+        if (canView && !CheckCurrentlyViewingPatient())
         {
             viewingJournal = !viewingJournal;
             journalObject.gameObject.SetActive(viewingJournal);
@@ -119,4 +123,6 @@ public class JournalAndChart : MonoBehaviour
     }
 
     private bool CheckCurrentlyViewingScreen() { return ScreenManager.Instance.IsViewingScreen(); }
+    private bool CheckCurrentlyViewingAlchemy() { return ScreenManager.Instance.IsViewingAlchemy(); }
+    private bool CheckCurrentlyViewingPatient() { return ScreenManager.Instance.IsViewingPatient(); }
 }
