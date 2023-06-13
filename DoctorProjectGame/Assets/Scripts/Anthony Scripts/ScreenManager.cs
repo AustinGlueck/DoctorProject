@@ -36,9 +36,13 @@ public class ScreenManager : MonoBehaviour
     private void Update()
     {
         // temporary exiting for alchemy screen
+        if (Input.GetKeyDown(KeyCode.Space) && viewingAlchemy)
+        {
+            ExitAlchemyScreen();
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ScreenManager.Instance.ExitAlchemyScreen();
+            Application.Quit();
         }
     }
 

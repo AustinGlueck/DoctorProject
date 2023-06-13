@@ -358,7 +358,7 @@ MonoBehaviour:
     Using the knowledge acquired by your family over generations, it is up to you
     to solve the various problems of the villagers. These can include injury or disease,
     the solution to which is up to you to decide. Make the wrong decisions however,
-    and your clinic\u2019s future could be in jeopardy\u2026\n\nPress ENTER..."
+    and your clinic\u2019s future could be in jeopardy\u2026\n\nPress SPACE..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
