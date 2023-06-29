@@ -17,12 +17,15 @@ public class ScreenManager : MonoBehaviour
 
     private bool viewingPatient = false;
     private bool viewingAlchemy = false;
+    private bool viewingMerchant = false;
 
     [SerializeField] private Canvas alchemyCanvas;
+    [SerializeField] private Canvas merchantCanvas;
 
-    public bool IsViewingScreen() { return viewingAlchemy || viewingPatient; }
+    public bool IsViewingScreen() { return viewingAlchemy || viewingPatient || viewingMerchant; }
     public bool IsViewingAlchemy() { return viewingAlchemy; }
     public bool IsViewingPatient() { return viewingPatient; }
+    public bool IsViewingMerchant() { return viewingMerchant; }
 
     private void Awake()
     {
@@ -31,6 +34,7 @@ public class ScreenManager : MonoBehaviour
         patientScreen.gameObject.SetActive(false);
         patientScreenChart.gameObject.SetActive(false);
         alchemyCanvas.gameObject.SetActive(false);
+        merchantCanvas.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -43,6 +47,11 @@ public class ScreenManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            EnterMerchantScreen();
         }
     }
 
@@ -103,4 +112,29 @@ public class ScreenManager : MonoBehaviour
     }
 
     private bool CheckPlayerIsViewingChart() { return JournalAndChart.Instance.IsViewing(); }
+
+    public void EnterMerchantScreen()
+    {
+        if (!viewingMerchant)
+        {
+            viewingMerchant = true;
+            PlayerController.Instance.SetPlayerMovement(false);
+            blackBackground.SetActive(true);
+
+            merchantCanvas.gameObject.SetActive(true);
+            MerchantManager.Instance.SetupMerchant();
+        }
+    }
+
+    public void ExitMerchantScreen()
+    {
+        if (viewingMerchant)
+        {
+            merchantCanvas.gameObject.SetActive(false);
+
+            blackBackground.SetActive(false);
+            PlayerController.Instance.SetPlayerMovement(true);
+            viewingMerchant = false;
+        }
+    }
 }
