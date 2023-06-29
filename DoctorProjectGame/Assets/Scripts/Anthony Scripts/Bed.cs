@@ -121,14 +121,14 @@ public class Bed : MonoBehaviour
             {
                 haschart = false;
                 JournalAndChart.Instance.SetHoldingChart(true);
-                JournalAndChart.Instance.SetChartData(patientName);
+                JournalAndChart.Instance.SetChartData(patientName, patientSymptoms, patientInfo);
                 bedChart.gameObject.SetActive(false);
             }
             else if (!haschart && CheckPlayerIsHoldingChart())
             {
                 haschart = true;
                 JournalAndChart.Instance.SetHoldingChart(false);
-                JournalAndChart.Instance.SetChartData(null);
+                JournalAndChart.Instance.SetChartData(null,null,null);
                 bedChart.gameObject.SetActive(true);
             }
         }

@@ -14,13 +14,18 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI patientNameText;
     [SerializeField] private TextMeshProUGUI patientSymptomText;
     [SerializeField] private TextMeshProUGUI patientInfoText;
-    private bool viewingScreen = false;
+
     private bool viewingPatient = false;
     private bool viewingAlchemy = false;
+    private bool viewingMerchant = false;
 
     [SerializeField] private Canvas alchemyCanvas;
+    [SerializeField] private Canvas merchantCanvas;
 
-    public bool IsViewingScreen() { return viewingScreen; }
+    public bool IsViewingScreen() { return viewingAlchemy || viewingPatient || viewingMerchant; }
+    public bool IsViewingAlchemy() { return viewingAlchemy; }
+    public bool IsViewingPatient() { return viewingPatient; }
+    public bool IsViewingMerchant() { return viewingMerchant; }
 
     private void Awake()
     {
@@ -29,13 +34,31 @@ public class ScreenManager : MonoBehaviour
         patientScreen.gameObject.SetActive(false);
         patientScreenChart.gameObject.SetActive(false);
         alchemyCanvas.gameObject.SetActive(false);
+        merchantCanvas.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        // temporary exiting for alchemy screen
+        if (Input.GetKeyDown(KeyCode.Space) && viewingAlchemy)
+        {
+            ExitAlchemyScreen();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            EnterMerchantScreen();
+        }
     }
 
     public void ViewPatientScreen(Sprite spr, string name, string symptoms, string info)
     {
-        if (!viewingScreen && !viewingPatient && !CheckPlayerIsViewingChart())
+        if (!viewingPatient && !CheckPlayerIsViewingChart())
         {
-            viewingScreen = true;
             viewingPatient = true;
             PlayerController.Instance.SetPlayerMovement(false);
             blackBackground.SetActive(true);
@@ -52,7 +75,7 @@ public class ScreenManager : MonoBehaviour
 
     public void ResetPatientScreen()
     {
-        if (viewingScreen && viewingPatient)
+        if (viewingPatient)
         {
             patientScreen.gameObject.SetActive(false);
             patientScreenChart.gameObject.SetActive(false);
@@ -60,17 +83,15 @@ public class ScreenManager : MonoBehaviour
             blackBackground.SetActive(false);
             PlayerController.Instance.SetPlayerMovement(true);
             viewingPatient = false;
-            viewingScreen = false;
             JournalAndChart.Instance.ToggleButtons();
         }
     }
 
     public void EnterAlchemyScreen()
     {
-        if (!viewingScreen && !viewingAlchemy)
+        if (!viewingAlchemy)
         {
             PlayerController.Instance.SetPlayerMovement(false);
-            viewingScreen = true;
             viewingAlchemy = true;
             JournalAndChart.Instance.ToggleButtons();
             blackBackground.SetActive(true);
@@ -80,16 +101,40 @@ public class ScreenManager : MonoBehaviour
 
     public void ExitAlchemyScreen()
     {
-        if (viewingScreen && viewingAlchemy)
+        if (viewingAlchemy)
         {
             alchemyCanvas.gameObject.SetActive(false);
             blackBackground.SetActive(false);
             JournalAndChart.Instance.ToggleButtons();
             viewingAlchemy = false;
-            viewingScreen = false;
             PlayerController.Instance.SetPlayerMovement(true);
         }
     }
 
     private bool CheckPlayerIsViewingChart() { return JournalAndChart.Instance.IsViewing(); }
+
+    public void EnterMerchantScreen()
+    {
+        if (!viewingMerchant)
+        {
+            viewingMerchant = true;
+            PlayerController.Instance.SetPlayerMovement(false);
+            blackBackground.SetActive(true);
+
+            merchantCanvas.gameObject.SetActive(true);
+            MerchantManager.Instance.SetupMerchant();
+        }
+    }
+
+    public void ExitMerchantScreen()
+    {
+        if (viewingMerchant)
+        {
+            merchantCanvas.gameObject.SetActive(false);
+
+            blackBackground.SetActive(false);
+            PlayerController.Instance.SetPlayerMovement(true);
+            viewingMerchant = false;
+        }
+    }
 }
