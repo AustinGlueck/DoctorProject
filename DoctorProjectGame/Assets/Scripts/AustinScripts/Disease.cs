@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Disease : MonoBehaviour
+[CreateAssetMenu(fileName = "New Disease", menuName = "Disease / New Disease")]
+public class Disease : ScriptableObject
 {
+
     public string diseaseName;
-    public int sicknessLevel;
+    //public int sicknessLevel;
 
     public Symptom[] symptoms;
     [System.Serializable]
@@ -15,17 +17,12 @@ public class Disease : MonoBehaviour
         public int symptomStrength;
     }
     // Start is called before the first frame update
-    void Start()
+    /*void Start()
     {
         foreach(Symptom symptom in symptoms)
         {
             sicknessLevel += symptom.symptomStrength;
         }
-    }
+    }*/
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
