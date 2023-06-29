@@ -9,6 +9,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     private Cauldron cauldron;
     private MortarAndPestle mortarAndPestle;
     private PotionMixer potionMixer;
+    private PotionPocket pocket;
     private Trash trash;
 
     public void Awake()
@@ -17,6 +18,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         mortarAndPestle = gameObject.GetComponent<MortarAndPestle>();
         potionMixer = gameObject.GetComponent<PotionMixer>();
         trash = gameObject.GetComponent<Trash>();
+        pocket = gameObject.GetComponent<PotionPocket>();
     }
     public void OnDrop(PointerEventData eventData)
     {
@@ -34,6 +36,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             if(dropped.tag == "Potion")
             {
                 draggableItem.parentAfterDrag = transform;
+                AddToSlots(dropped);
             }
         }
     }
@@ -56,6 +59,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         {
             trash.newObject = draggedItem;
         }
+
+        if(pocket != null)
+        {
+            pocket.NewPotion(draggedItem);
+        }
     }
 
     public void RemoveFromSlots()
@@ -75,6 +83,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         if (trash != null)
         {
             trash.newObject = null;
+        }
+        if(pocket != null)
+        {
+            pocket.NewPotion(null);
         }
     }
 }

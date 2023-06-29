@@ -92,6 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   symptomsTreated: []
   brewer: {fileID: 0}
+  ruinedSprite: {fileID: 21300000, guid: 08d53f3ba8c662b44940530c65dee688, type: 3}
 --- !u!114 &5641303674381564986
 MonoBehaviour:
   m_ObjectHideFlags: 0
