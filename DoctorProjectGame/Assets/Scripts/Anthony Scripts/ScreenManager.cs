@@ -55,7 +55,7 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
-    public void ViewPatientScreen(Sprite spr, string name, string symptoms, string info)
+    public void ViewPatientScreen(Sprite spr, string name, List<Disease.Symptom> symptoms, string info)
     {
         if (!viewingPatient && !CheckPlayerIsViewingChart())
         {
@@ -64,7 +64,14 @@ public class ScreenManager : MonoBehaviour
             blackBackground.SetActive(true);
 
             patientNameText.text = name;
-            patientSymptomText.text = symptoms;
+            patientSymptomText.text = "- " + symptoms[0].symptomName;
+            if (symptoms.Count > 1)
+            {
+                for (int i = 1; i < symptoms.Count; i++)
+                {
+                    patientSymptomText.text += "\n" + "- " + symptoms[i].symptomName;
+                }
+            }
             patientInfoText.text = info;
             patientScreenChart.gameObject.SetActive(true);
             patientScreen.sprite = spr;

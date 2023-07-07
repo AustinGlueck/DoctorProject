@@ -7,9 +7,9 @@ public class Bed : MonoBehaviour
     private bool isContact = false;
 
     //Patient
-    public string patientName = "Joe";
-    public string patientSymptoms = "symptoms";
-    public string patientInfo = "info";
+    private PatientScript patient;
+    public void SetPatient(PatientScript patient) { this.patient = patient; }
+    public string patientInfo = "info"; //revisit
     [SerializeField] private bool hasPatient = false;
     private bool viewingPatient = false;
 
@@ -103,7 +103,7 @@ public class Bed : MonoBehaviour
             if (!viewingPatient && !CheckCurrentlyViewingScreen())
             {
                 viewingPatient = true;
-                ScreenManager.Instance.ViewPatientScreen(patientSprite, patientName, patientSymptoms, patientInfo);
+                ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, patient.symptoms, patientInfo);
             }
             else if (viewingPatient && CheckCurrentlyViewingScreen())
             {
@@ -121,7 +121,7 @@ public class Bed : MonoBehaviour
             {
                 haschart = false;
                 JournalAndChart.Instance.SetHoldingChart(true);
-                JournalAndChart.Instance.SetChartData(patientName, patientSymptoms, patientInfo);
+                JournalAndChart.Instance.SetChartData(patient.patientName, patient.symptoms, patientInfo);
                 bedChart.gameObject.SetActive(false);
             }
             else if (!haschart && CheckPlayerIsHoldingChart())

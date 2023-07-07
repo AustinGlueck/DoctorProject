@@ -50,10 +50,25 @@ public class JournalAndChart : MonoBehaviour
         chartButtonImageUI.color = greyedOutColor;
     }
 
-    public void SetChartData(string name, string symptoms, string info)
+    public void SetChartData(string name, List<Disease.Symptom> symptoms, string info)
     {
+        if (name == null && symptoms == null && info == null)
+        {
+            chartObjectName.text = "";
+            chartObjectSymptoms.text = "";
+            chartObjectInfo.text = "";
+            return;
+        }
+
         chartObjectName.text = name;
-        chartObjectSymptoms.text = symptoms;
+        chartObjectSymptoms.text = "- " + symptoms[0].symptomName;
+        if (symptoms.Count > 1)
+        {
+            for (int i = 1; i < symptoms.Count; i++)
+            {
+                chartObjectSymptoms.text += "\n" + "- " + symptoms[i].symptomName;
+            }
+        }
         chartObjectInfo.text = info;
     }
 

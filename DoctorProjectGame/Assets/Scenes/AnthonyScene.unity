@@ -505,7 +505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.07, y: 0.18844828}
   m_AnchorMax: {x: 0.40800002, y: 0.37955177}
-  m_AnchoredPosition: {x: -0.0025024414, y: -0.35787964}
+  m_AnchoredPosition: {x: -0.0024414062, y: -0.35784912}
   m_SizeDelta: {x: 0.0049744, y: -0.7119}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &67786657
@@ -887,7 +887,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.66788423, y: 0.79857236}
   m_AnchorMax: {x: 0.87757915, y: 0.858434}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -0.000061035, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &141663865
@@ -1096,7 +1096,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &256069765
 GameObject:
@@ -1164,7 +1164,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &265850234
 GameObject:
@@ -2232,7 +2232,7 @@ RectTransform:
   - {fileID: 723184858}
   - {fileID: 691023058}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3049,8 +3049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de56c5b7f85cc640a85c0165fe97ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patientName: Cid
-  patientSymptoms: symptoms
   patientInfo: info
   hasPatient: 1
   haschart: 1
@@ -3238,23 +3236,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f781ef0cd3f5d96459cd5620fda5fefe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beds:
+  - {fileID: 1281943111}
+  - {fileID: 708979012}
   patients:
-  - bed: {fileID: 1281943111}
-    name: Joe
-    symptoms: '- Shaky hands
-
-      - Coughing
-
-      - Itchiness'
-    info: 
-  - bed: {fileID: 708979012}
-    name: Cid
-    symptoms: '- Dizziness
-
-      - Fatigue
-
-      - Mood Swings'
-    info: 
+  - {fileID: 1249106982}
+  - {fileID: 1249106982}
 --- !u!4 &771648570
 Transform:
   m_ObjectHideFlags: 0
@@ -4393,56 +4380,19 @@ MonoBehaviour:
   inventorySlot: {fileID: 0}
   ingredients: []
   ingredientScripts: []
-  ruinedPotionSprite: {fileID: 21300000, guid: 08d53f3ba8c662b44940530c65dee688, type: 3}
   finalSymptoms: []
   newPotion: {fileID: 8714104300714705340, guid: d07b62e2089b632418c225379fdb3cfb, type: 3}
---- !u!1 &1249106981
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1249106983}
-  - component: {fileID: 1249106982}
-  m_Layer: 0
-  m_Name: TestPatient
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1249106982
+--- !u!114 &1249106982 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 5476048401233928480, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+  m_PrefabInstance: {fileID: 5476048400322870534}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1249106981}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81106454d267aa846a92b35aec1775a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disease: {fileID: 11400000, guid: e258fb45e7dd13543b2b692b6bedb97b, type: 2}
-  patientName: Joe
-  symptoms: []
---- !u!4 &1249106983
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1249106981}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 862.17804, y: 451.82324, z: 232.95947}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1256051851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4798,8 +4748,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de56c5b7f85cc640a85c0165fe97ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patientName: Joe
-  patientSymptoms: symptoms
   patientInfo: info
   hasPatient: 1
   haschart: 1
@@ -6075,7 +6023,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.628, y: 0.11177306}
   m_AnchorMax: {x: 0.90449834, y: 0.31022695}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1548729756
@@ -6400,7 +6348,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &1645817213
 GameObject:
@@ -6710,7 +6658,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.66788423, y: 0.79857236}
   m_AnchorMax: {x: 0.87757915, y: 0.858434}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -0.000061035, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1667173942
@@ -9547,6 +9495,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef47a4a05de8bd14293184f919058da0, type: 3}
+--- !u!1001 &5476048400322870534
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 862.17804
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 451.82324
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 232.95947
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928481, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476048401233928483, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
+      propertyPath: m_Name
+      value: TestPatient
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: da8a1631e8a679d4ea1ad97350e9fb0a, type: 3}
 --- !u!1001 &6483824020840159741
 PrefabInstance:
   m_ObjectHideFlags: 0

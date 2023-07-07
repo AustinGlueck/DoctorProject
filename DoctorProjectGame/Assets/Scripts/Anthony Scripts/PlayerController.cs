@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
+        UpdateAnimatorSpeed();
         if (Input.GetAxisRaw("Horizontal") > 0 && canMove)
         {
             FlipSprite(false);
@@ -46,6 +47,11 @@ public class PlayerController : MonoBehaviour
             SetWalkAnimation(false);
             IdleAnimation();
         }
+    }
+
+    private void UpdateAnimatorSpeed()
+    {
+        animator.speed = canMove ? 1 : 0;
     }
 
     public void FlipSprite(bool b)
