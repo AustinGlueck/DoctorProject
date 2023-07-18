@@ -4,40 +4,20 @@ using UnityEngine;
 
 public class BedManager : MonoBehaviour
 {
-    //tempory for playtesting
-    [System.Serializable]
-    public class Patient
-    {
-        public Bed bed;
-        public string name;
-        [TextArea] public string symptoms;
-        public string info;
-    }
-
-    public List<Patient> patients = new List<Patient>();
+    public List<Bed> beds = new List<Bed>();
+    public List<PatientScript> patients = new List<PatientScript>();
 
     private void Start()
     {
-        foreach (Patient patient in patients)
+        for (int i=0; i<beds.Count; i++)
         {
-            UpdateBedPatient(patient);
+            if (patients[i] == null) break;
+            UpdateBedPatient(beds[i], patients[i]);
         }
     }
-    //
-
-    //original method
-    public void UpdateBedPatient(Bed bed, string name, string symptoms, string info)
+    
+    public void UpdateBedPatient(Bed bed, PatientScript patient)
     {
-        bed.patientName = name;
-        bed.patientSymptoms = symptoms;
-        bed.patientInfo = info;
-    }
-
-    //streamlined method
-    public void UpdateBedPatient(Patient patient)
-    {
-        patient.bed.patientName = patient.name;
-        patient.bed.patientSymptoms = patient.symptoms;
-        patient.bed.patientInfo = patient.info;
+        bed.SetPatient(patient);
     }
 }
