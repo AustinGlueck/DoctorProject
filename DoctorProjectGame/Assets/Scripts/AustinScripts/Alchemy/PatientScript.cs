@@ -5,6 +5,7 @@ using UnityEngine;
 public class PatientScript : MonoBehaviour
 {
     public Disease disease;
+    public DialogueScriptableObject dialogue;
     public string patientName;
     public List<Disease.Symptom> symptoms;
 

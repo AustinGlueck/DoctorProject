@@ -21,6 +21,8 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] private Canvas alchemyCanvas;
     [SerializeField] private Canvas merchantCanvas;
+    [SerializeField] private GameObject dialogueCanvas; // Austin
+    [SerializeField] private DialogueMaster dialogueMaster; // Austin
 
     public bool IsViewingScreen() { return viewingAlchemy || viewingPatient || viewingMerchant; }
     public bool IsViewingAlchemy() { return viewingAlchemy; }
@@ -35,6 +37,7 @@ public class ScreenManager : MonoBehaviour
         patientScreenChart.gameObject.SetActive(false);
         alchemyCanvas.gameObject.SetActive(false);
         merchantCanvas.gameObject.SetActive(false);
+        dialogueCanvas.SetActive(false);
     }
 
     private void Update()
@@ -76,6 +79,8 @@ public class ScreenManager : MonoBehaviour
             patientScreenChart.gameObject.SetActive(true);
             patientScreen.sprite = spr;
             patientScreen.gameObject.SetActive(true);
+            dialogueCanvas.SetActive(true); // Austin
+            dialogueMaster.Startup(); // Austin
             JournalAndChart.Instance.ToggleButtons();
         }
     }
@@ -90,6 +95,7 @@ public class ScreenManager : MonoBehaviour
             blackBackground.SetActive(false);
             PlayerController.Instance.SetPlayerMovement(true);
             viewingPatient = false;
+            dialogueCanvas.SetActive(false); // Austin
             JournalAndChart.Instance.ToggleButtons();
         }
     }
