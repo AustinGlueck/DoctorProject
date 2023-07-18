@@ -7,16 +7,34 @@ public class MerchantManager : MonoBehaviour
 {
     public static MerchantManager Instance { get; private set; }
 
-    [SerializeField] private Merchant merchant;
     [SerializeField] private Image merchantSprite;
-    [SerializeField] private GameObject merchantUI;
-    private List<string> productsToSell = new List<string>();
+    [SerializeField] private Canvas merchantCanvas;
+
+    //Items
+    private List<string> products = new List<string>();
+    [SerializeField] private GameObject itemListParent;
+    [SerializeField] private GameObject itemObjPrefab;
+    private List<GameObject> itemObjectList = new List<GameObject>();
+    [SerializeField] private int maxItemAmount = 10;
+    public int GetMaxItemAmount() { return maxItemAmount; }
+
+    //Order
+    private Dictionary<string, int> myOrder = new Dictionary<string, int>();
+    public Dictionary<string, int> AccessOrder() { return myOrder; }
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         //merchantSprite.gameObject.SetActive(false);
-        merchantUI.SetActive(false);
+        //merchantCanvas.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SetupMerchant();
+        }
     }
 
     public void SetupMerchant()
@@ -24,69 +42,58 @@ public class MerchantManager : MonoBehaviour
         //temp update products list in merchant
         List<string> list = new List<string>();
         list.Add("apple"); list.Add("banana"); list.Add("orange");
-        productsToSell = list;
-        SetMerchantProducts(productsToSell);
+        products = list;
         
         //UI
         ToggleMerchantUI(true);
     }
 
-    private void SetMerchantProducts(List<string> products)
-    {
-        foreach (string str in products)
-        {
-            merchant.SetProducts(str);
-        }
-    }
-
     private void ToggleMerchantUI(bool b)
     {
         //merchantSprite.gameObject.SetActive(!merchantSprite.gameObject.activeSelf);
-        merchantUI.SetActive(b);
+        merchantCanvas.gameObject.SetActive(b);
 
         if (b)
         {
-            foreach (string product in productsToSell)
+            foreach (string itemName in products)
             {
-                print(product);
+                GameObject shopItem = Instantiate(itemObjPrefab, itemListParent.transform);
+                shopItem.name = itemName;
+                MerchantItem merchantItem= shopItem.GetComponent<MerchantItem>();
+                merchantItem.itemName = itemName;
+                itemObjectList.Add(shopItem);
+                myOrder.Add(itemName, 0);
             }
         }
     }
 
     public void ResetMerchant()
     {
-        //Merchant
-        merchant.ClearProducts();
+        products.Clear();
+        foreach (GameObject item in itemObjectList)
+        {
+            Destroy(item);
+        }
+        itemObjectList.Clear();
+        myOrder.Clear();
 
         //UI
         ToggleMerchantUI(false);
     }
 
-    private void MenuNavigation()
+    public void ConfirmPurchase()
     {
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-        {
-
-        }
-        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-
-        }
+        AddToInventory();
+        //ResetMerchant();
     }
 
-    public void ButtonSelect()
+    //
+    private void AddToInventory()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        //temp till link to inventory is made
+        foreach (KeyValuePair<string, int> kvp in myOrder)
         {
-
-        }
-    }
-
-    public void ButtonConfirm()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-
+            print(kvp.Value + " " + kvp.Key);
         }
     }
 }
