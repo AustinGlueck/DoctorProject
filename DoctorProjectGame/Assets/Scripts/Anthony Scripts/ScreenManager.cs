@@ -58,7 +58,7 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
-    public void ViewPatientScreen(Sprite spr, string name, List<Disease.Symptom> symptoms, string info)
+    public void ViewPatientScreen(Sprite spr, string name, List<Disease.Symptom> symptoms, string info, DialogueScriptableObject dialogue)
     {
         if (!viewingPatient && !CheckPlayerIsViewingChart())
         {
@@ -80,6 +80,7 @@ public class ScreenManager : MonoBehaviour
             patientScreen.sprite = spr;
             patientScreen.gameObject.SetActive(true);
             dialogueCanvas.SetActive(true); // Austin
+            dialogueMaster.dialogue = dialogue;
             dialogueMaster.Startup(); // Austin
             JournalAndChart.Instance.ToggleButtons();
         }
