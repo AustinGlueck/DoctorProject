@@ -24,51 +24,53 @@ public class PotionOutput : MonoBehaviour
 
     public void MixPotion()
     {
-        GameObject instantiatedPotion;
-        bool potionRuined = false;
-        if(inventorySlot.transform.childCount > 0)
+        if(ingredientScripts.Count > 0)
         {
-            Destroy(inventorySlot.transform.GetChild(0).gameObject);
-        }
-        foreach(Ingredient ingredientScript in ingredientScripts)
-        {
-            if(ingredientScript.ingredientState == Ingredient.IngredientState.Boiled)
+            GameObject instantiatedPotion;
+            bool potionRuined = false;
+            if (inventorySlot.transform.childCount > 0)
             {
-                foreach(string symptomTreated in ingredientScript.boiledSymptomsTreated)
+                Destroy(inventorySlot.transform.GetChild(0).gameObject);
+            }
+            foreach (Ingredient ingredientScript in ingredientScripts)
+            {
+                if (ingredientScript.ingredientState == Ingredient.IngredientState.Boiled)
                 {
-                    finalSymptoms.Add(symptomTreated);
+                    foreach (string symptomTreated in ingredientScript.boiledSymptomsTreated)
+                    {
+                        finalSymptoms.Add(symptomTreated);
+                    }
+                }
+
+                if (ingredientScript.ingredientState == Ingredient.IngredientState.Distilled)
+                {
+                    foreach (string symptomTreated in ingredientScript.distilledSymptomsTreated)
+                    {
+                        finalSymptoms.Add(symptomTreated);
+                    }
+                }
+
+                if (ingredientScript.ingredientState == Ingredient.IngredientState.Radiated)
+                {
+                    foreach (string symptomTreated in ingredientScript.radiatedSymptomsTreated)
+                    {
+                        finalSymptoms.Add(symptomTreated);
+                    }
+                }
+
+                if (ingredientScript.ingredientState == Ingredient.IngredientState.Raw || ingredientScript.ingredientState == Ingredient.IngredientState.Ruined)
+                {
+                    potionRuined = true;
                 }
             }
 
-            if (ingredientScript.ingredientState == Ingredient.IngredientState.Distilled)
-            {
-                foreach (string symptomTreated in ingredientScript.distilledSymptomsTreated)
-                {
-                    finalSymptoms.Add(symptomTreated);
-                }
-            }
+            instantiatedPotion = Instantiate(newPotion, gameObject.transform);
 
-            if (ingredientScript.ingredientState == Ingredient.IngredientState.Radiated)
+            if (potionRuined)
             {
-                foreach (string symptomTreated in ingredientScript.radiatedSymptomsTreated)
-                {
-                    finalSymptoms.Add(symptomTreated);
-                }
-            }
-
-            if(ingredientScript.ingredientState == Ingredient.IngredientState.Raw || ingredientScript.ingredientState == Ingredient.IngredientState.Ruined)
-            {
-                potionRuined = true;
+                RuinPotion(instantiatedPotion);
             }
         }
-
-        instantiatedPotion = Instantiate(newPotion,gameObject.transform);
-
-        if (potionRuined)
-        {
-            RuinPotion(instantiatedPotion);
-        }
-    
     }
 
     private void RuinPotion(GameObject potion)
