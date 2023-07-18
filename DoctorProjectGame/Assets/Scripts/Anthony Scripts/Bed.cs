@@ -103,7 +103,7 @@ public class Bed : MonoBehaviour
             if (!viewingPatient && !CheckCurrentlyViewingScreen())
             {
                 viewingPatient = true;
-                ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, patient.symptoms, patientInfo);
+                ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, patient.symptoms, patientInfo, patient.dialogue);
             }
             else if (viewingPatient && CheckCurrentlyViewingScreen())
             {
