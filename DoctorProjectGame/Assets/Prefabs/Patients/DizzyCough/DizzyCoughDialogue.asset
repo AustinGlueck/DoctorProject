@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ca316f626b92f46a405f1f681239a2, type: 3}
+  m_Name: DizzyCoughDialogue
+  m_EditorClassIdentifier: 
+  npcID: 0
+  npcName: Joe
+  NPCDialogues:
+  - text: Hey doctor, I'm feeling real sick.
+    responses:
+    - nextDialogue: 1
+      buttonNumber: 0
+      reply: How is your breathing?
+      prereq: 
+      trigger: 
+    - nextDialogue: 2
+      buttonNumber: 1
+      reply: Have you been feeling tired or confused?
+      prereq: 
+      trigger: 
+  - text: My throat tickles every time I breathe, I keep coughing.
+    responses:
+    - nextDialogue: 3
+      buttonNumber: 0
+      reply: Do you feel a rattling in your chest?
+      prereq: 
+      trigger: 
+  - text: Not tired or confused, but I do feel a little light headed when I walk
+      around, and I keep losing my balance.
+    responses:
+    - nextDialogue: 0
+      buttonNumber: 0
+      reply: I see
+      prereq: 
+      trigger: 
+  - text: No, I'm able to fill my lungs no problem, it's just the throat that's bothering
+      me.
+    responses:
+    - nextDialogue: 0
+      buttonNumber: 0
+      reply: I see
+      prereq: 
+      trigger: 

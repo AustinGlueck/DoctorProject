@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PotionPocket : MonoBehaviour
 {
+    public static PotionPocket Instance { get; private set; }
     public GameObject potion;
     public Potion potionScript;
     public PatientScript targetPatient;
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (Instance == null) Instance = this;
     }
 
     // Update is called once per frame
@@ -34,6 +35,9 @@ public class PotionPocket : MonoBehaviour
 
     public void ApplyCure()
     {
+        print("ApplyCure");
         targetPatient.CureDisease(potionScript);
+        Destroy(potion);
+        NewPotion(null);
     }
 }

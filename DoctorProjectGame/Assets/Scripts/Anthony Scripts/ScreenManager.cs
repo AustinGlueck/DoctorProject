@@ -36,7 +36,7 @@ public class ScreenManager : MonoBehaviour
         patientScreen.gameObject.SetActive(false);
         patientScreenChart.gameObject.SetActive(false);
         alchemyCanvas.gameObject.SetActive(false);
-        merchantCanvas.gameObject.SetActive(false);
+        //merchantCanvas.gameObject.SetActive(false);
         dialogueCanvas.SetActive(false);
     }
 
