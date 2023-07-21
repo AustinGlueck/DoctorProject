@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ca316f626b92f46a405f1f681239a2, type: 3}
+  m_Name: SleepyShakesDialogue
+  m_EditorClassIdentifier: 
+  npcID: 0
+  npcName: Gil
+  NPCDialogues:
+  - text: I'm feeling weird Doc *eye twitch*
+    responses:
+    - nextDialogue: 1
+      buttonNumber: 0
+      reply: How are you feeling weird?
+      prereq: 
+      trigger: 
+  - text: Well, I feel really tired all the time but I can't sleep, and my hands
+      won't stop shaking.
+    responses:
+    - nextDialogue: 0
+      buttonNumber: 0
+      reply: I see
+      prereq: 
+      trigger: 

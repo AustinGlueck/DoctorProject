@@ -28,6 +28,7 @@ public class Bed : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             isContact = true;
+            PotionPocket.Instance.targetPatient = patient;
         }
     }
 
@@ -38,6 +39,7 @@ public class Bed : MonoBehaviour
             isContact = false;
             JournalAndChart.Instance.ToggleTooltipSpacebar(false);
             JournalAndChart.Instance.ToggleTooltipFkey(false);
+            PotionPocket.Instance.targetPatient = null;
         }
     }
 

@@ -21,11 +21,11 @@ public class PotionMixer : MonoBehaviour
         {
             ingredientScript = newIngredient.GetComponent<Ingredient>();
             potionOutput.ingredientScripts.Add(ingredientScript);
-            //potionOutput.ingredients.Add(ingredient);
+            potionOutput.ingredients.Add(ingredient);
         }
         else
         {
-            //potionOutput.ingredients.Remove(ingredient);
+            potionOutput.ingredients.Remove(ingredient);
             potionOutput.ingredientScripts.Remove(ingredientScript);
             ingredientScript = null;
         }
