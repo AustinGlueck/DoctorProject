@@ -24,6 +24,8 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject dialogueCanvas; // Austin
     [SerializeField] private DialogueMaster dialogueMaster; // Austin
 
+    [SerializeField] private TextMeshProUGUI cureResultText; //temp for playtest 2
+
     public bool IsViewingScreen() { return viewingAlchemy || viewingPatient || viewingMerchant; }
     public bool IsViewingAlchemy() { return viewingAlchemy; }
     public bool IsViewingPatient() { return viewingPatient; }
@@ -38,6 +40,8 @@ public class ScreenManager : MonoBehaviour
         alchemyCanvas.gameObject.SetActive(false);
         //merchantCanvas.gameObject.SetActive(false);
         dialogueCanvas.SetActive(false);
+
+        if (cureResultText) cureResultText.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -129,7 +133,7 @@ public class ScreenManager : MonoBehaviour
 
     public void EnterMerchantScreen()
     {
-        if (!viewingMerchant)
+        if (!viewingMerchant && merchantCanvas)
         {
             viewingMerchant = true;
             PlayerController.Instance.SetPlayerMovement(false);
@@ -142,7 +146,7 @@ public class ScreenManager : MonoBehaviour
 
     public void ExitMerchantScreen()
     {
-        if (viewingMerchant)
+        if (viewingMerchant && merchantCanvas)
         {
             merchantCanvas.gameObject.SetActive(false);
 
@@ -150,5 +154,30 @@ public class ScreenManager : MonoBehaviour
             PlayerController.Instance.SetPlayerMovement(true);
             viewingMerchant = false;
         }
+    }
+
+    //Temp for playtest2
+    public void DisplayCureResult(bool b)
+    {
+        if (cureResultText != null)
+        {
+            cureResultText.color = b ? Color.green : Color.yellow;
+            cureResultText.text = b ? "Cured!" : "Hmm...";
+            cureResultText.gameObject.SetActive(true);
+            StartCoroutine(LowerTextOpacity(cureResultText));
+        }
+    }
+
+    IEnumerator LowerTextOpacity(TextMeshProUGUI textObj)
+    {
+        while(textObj.color.a > 0)
+        {
+            float alphaVal = textObj.color.a - 0.1f;
+            Color newColor = textObj.color;
+            newColor.a = alphaVal;
+            textObj.color = newColor;
+            yield return new WaitForSeconds(0.5f);
+        }
+        //yield return null;
     }
 }
