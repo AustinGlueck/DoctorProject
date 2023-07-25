@@ -15,10 +15,12 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI patientSymptomText;
     [SerializeField] private TextMeshProUGUI patientInfoText;
 
+    private bool viewPauseMenu = false;
     private bool viewingPatient = false;
     private bool viewingAlchemy = false;
     private bool viewingMerchant = false;
 
+    [SerializeField] private Canvas pauseMenuCanvas;
     [SerializeField] private Canvas alchemyCanvas;
     [SerializeField] private Canvas merchantCanvas;
     [SerializeField] private GameObject dialogueCanvas; // Austin
@@ -35,11 +37,12 @@ public class ScreenManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         blackBackground.SetActive(false);
+        if(pauseMenuCanvas) pauseMenuCanvas.gameObject.SetActive(false);
         patientScreen.gameObject.SetActive(false);
         patientScreenChart.gameObject.SetActive(false);
         alchemyCanvas.gameObject.SetActive(false);
         //merchantCanvas.gameObject.SetActive(false);
-        dialogueCanvas.SetActive(false);
+        if(dialogueCanvas) dialogueCanvas.SetActive(false);
 
         if (cureResultText) cureResultText.gameObject.SetActive(false);
     }
@@ -51,15 +54,29 @@ public class ScreenManager : MonoBehaviour
         {
             ExitAlchemyScreen();
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        PauseMenu();
+    }
+
+    private void PauseMenu()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenuCanvas)
         {
-            EnterMerchantScreen();
+            TogglePause();
         }
+    }
+
+    public void TogglePause()
+    {
+        viewPauseMenu = !viewPauseMenu;
+        print(viewPauseMenu);
+        PlayerController.Instance.SetPlayerMovement(!viewPauseMenu);
+        pauseMenuCanvas.gameObject.SetActive(viewPauseMenu);
+    }
+
+    public void QuitDesktopApp()
+    {
+        MySceneManager.Instance.QuitDesktopApp();
     }
 
     public void ViewPatientScreen(Sprite spr, string name, List<Disease.Symptom> symptoms, string info, DialogueScriptableObject dialogue)
@@ -75,9 +92,7 @@ public class ScreenManager : MonoBehaviour
             if (symptoms.Count > 1)
             {
                 for (int i = 1; i < symptoms.Count; i++)
-                {
                     patientSymptomText.text += "\n" + "- " + symptoms[i].symptomName;
-                }
             }
             patientInfoText.text = info;
             patientScreenChart.gameObject.SetActive(true);
