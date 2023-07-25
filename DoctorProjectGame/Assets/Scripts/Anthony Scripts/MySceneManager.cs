@@ -5,12 +5,37 @@ using UnityEngine.SceneManagement;
 
 public class MySceneManager : MonoBehaviour
 {
+    public static MySceneManager Instance { get; private set; }
+    public bool canProgress = false;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
+
     private void Update()
     {
-        //temporary for playtestv1
-        if (Input.GetKeyDown(KeyCode.Space))
+        Progress();
+    }
+
+    private void Progress()
+    {
+        if (canProgress)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0))
+            {
+                LoadNextScene();
+            }
         }
+    }
+
+    public void LoadNextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void QuitDesktopApp()
+    {
+        Application.Quit();
     }
 }
