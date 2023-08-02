@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/playtest1-startscreen.unity
     guid: 20f68e3f7ea1ed14ab98c433f8cf0669
   - enabled: 1
-    path: Assets/Scenes/playtest1.unity
-    guid: 317bceb550ccb5c41bafcd990322f453
+    path: Assets/Scenes/playtest-synopsis.unity
+    guid: 0991f8cc3940f424b935d7f73dcc890b
+  - enabled: 1
+    path: Assets/Scenes/playtest2.unity
+    guid: fa0ce23605cdfb146a82f4d8f33f22be
   m_configObjects: {}

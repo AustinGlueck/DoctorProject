@@ -19,22 +19,27 @@ public class PatientScript : MonoBehaviour
 
     public void CureDisease(Potion treatment)
     {
-        foreach(string symptomTreated in treatment.symptomsTreated)
+        if (treatment != null)
         {
-            for(int i = 0; i < symptoms.Count; i++)
+            foreach (string symptomTreated in treatment.symptomsTreated)
             {
-                if(symptoms[i].symptomName == symptomTreated)
+                for (int i = 0; i < symptoms.Count; i++)
                 {
-                    symptoms.Remove(symptoms[i]);
-                    continue;
+                    if (symptoms[i].symptomName == symptomTreated)
+                    {
+                        symptoms.Remove(symptoms[i]);
+                        continue;
+                    }
                 }
             }
-        }
 
-        if(symptoms.Count == 0)
-        {
-            print("cured");
+            if (symptoms.Count == 0)
+            {
+                print("cured");
+                ScreenManager.Instance.DisplayCureResult(true);
+                return;
+            }
+            ScreenManager.Instance.DisplayCureResult(false);
         }
     }
-
 }
