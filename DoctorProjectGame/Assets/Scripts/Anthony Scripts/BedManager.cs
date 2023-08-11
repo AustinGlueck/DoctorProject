@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class BedManager : MonoBehaviour
 {
+    public static BedManager Instance { get; private set; }
     public List<Bed> beds = new List<Bed>();
     public List<PatientScript> patients = new List<PatientScript>();
+    private Bed currentBed = null;
+    public void SetActiveBed(Bed bed) { currentBed = bed; }
+    public Bed GetActiveBed() { return currentBed; }
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 
     private void Start()
     {
