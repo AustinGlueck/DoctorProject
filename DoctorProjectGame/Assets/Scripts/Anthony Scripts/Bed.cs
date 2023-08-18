@@ -7,11 +7,13 @@ public class Bed : MonoBehaviour
     private bool isContact = false;
 
     //Patient
-    private PatientScript patient;
+    [SerializeField] private PatientScript patient;
     public void SetPatient(PatientScript patient) { this.patient = patient; }
-    public string patientInfo = "info"; //revisit
+    private List<bool> checkMarks = new List<bool>();
+    private int maxSymptoms = 3;//revisit to streamline
+    public void SetCheckMarks(List<bool> checkMarks) { this.checkMarks = checkMarks; }
+    public string notes = "info"; //revisit
     [SerializeField] private bool hasPatient = false;
-    private bool viewingPatient = false;
 
     //Chart
     [SerializeField] private bool haschart = false;
@@ -21,6 +23,16 @@ public class Bed : MonoBehaviour
     private void Start()
     {
         //chart.SetActive(false);
+        RestCheckMarks();
+    }
+
+    private void RestCheckMarks()
+    {
+        checkMarks.Clear();
+        for (int i=0; i<maxSymptoms; i++)
+        {
+            checkMarks.Add(false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -37,8 +49,8 @@ public class Bed : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             isContact = false;
-            JournalAndChart.Instance.ToggleTooltipSpacebar(false);
             JournalAndChart.Instance.ToggleTooltipFkey(false);
+            JournalAndChart.Instance.ToggleTooltipGkey(false);
             PotionPocket.Instance.targetPatient = null;
         }
     }
@@ -74,42 +86,58 @@ public class Bed : MonoBehaviour
         {
             if(CheckPlayerIsViewing())
             {
-                JournalAndChart.Instance.ToggleTooltipSpacebar(false);
                 JournalAndChart.Instance.ToggleTooltipFkey(false);
+                JournalAndChart.Instance.ToggleTooltipGkey(false);
                 return;
             }
 
-            JournalAndChart.Instance.ToggleTooltipSpacebar(true);
+            JournalAndChart.Instance.ToggleTooltipFkey(true);
 
             if (!haschart && CheckPlayerIsHoldingChart())
             {
-                JournalAndChart.Instance.ToggleTooltipFkey(true);
-                JournalAndChart.Instance.SetTooltipFkeyText("F Key: return chart");
+                JournalAndChart.Instance.ToggleTooltipGkey(true);
+                JournalAndChart.Instance.SetTooltipGkeyText("G Key: return chart");
             }
             else if(haschart && !CheckPlayerIsHoldingChart())
             {
-                JournalAndChart.Instance.ToggleTooltipFkey(true);
-                JournalAndChart.Instance.SetTooltipFkeyText("F Key: pick up chart");
+                JournalAndChart.Instance.ToggleTooltipGkey(true);
+                JournalAndChart.Instance.SetTooltipGkeyText("G Key: pick up chart");
             }
             else if(haschart && CheckPlayerIsHoldingChart())
             {
-                JournalAndChart.Instance.ToggleTooltipFkey(false);
+                JournalAndChart.Instance.ToggleTooltipGkey(false);
+            }
+        }
+    }
+
+    private void PassTutorial()
+    {
+        if (MainTutorial.Instance != null)
+        {
+            if (MainTutorial.Instance.enableTutorial)
+            {
+                switch (MainTutorial.Instance.currentStage)
+                {
+                    case 0:
+                        MainTutorial.Instance.PassCurrentStage();
+                        break;
+                }
             }
         }
     }
 
     private void ViewPatient()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && IsContactWithPatient() && !CheckPlayerIsViewing())
+        if (Input.GetKeyDown(KeyCode.F) && IsContactWithPatient() && !CheckPlayerIsViewing())
         {
-            if (!viewingPatient && !CheckCurrentlyViewingScreen())
+            if (!CheckCurrentlyViewingScreen())
             {
-                viewingPatient = true;
-                ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, patient.symptoms, patientInfo, patient.dialogue);
+                PassTutorial();
+                ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, checkMarks, notes, patient.dialogue);
+                BedManager.Instance.SetActiveBed(this);
             }
-            else if (viewingPatient && CheckCurrentlyViewingScreen())
+            else if (CheckCurrentlyViewingScreen())
             {
-                viewingPatient = false;
                 ScreenManager.Instance.ResetPatientScreen();
             }
         }
@@ -117,13 +145,13 @@ public class Bed : MonoBehaviour
 
     private void PickUpChart()
     {
-        if (Input.GetKeyDown(KeyCode.F) && IsContactWithPatient() && !CheckPlayerIsViewing() && !CheckCurrentlyViewingScreen())
+        if (Input.GetKeyDown(KeyCode.G) && IsContactWithPatient() && !CheckPlayerIsViewing() && !CheckCurrentlyViewingScreen())
         {
             if (haschart && !CheckPlayerIsHoldingChart())
             {
                 haschart = false;
                 JournalAndChart.Instance.SetHoldingChart(true);
-                JournalAndChart.Instance.SetChartData(patient.patientName, patient.symptoms, patientInfo);
+                JournalAndChart.Instance.SetChartData(patient.patientName, patient.symptoms, notes);
                 bedChart.gameObject.SetActive(false);
             }
             else if (!haschart && CheckPlayerIsHoldingChart())
