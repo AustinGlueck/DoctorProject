@@ -28,6 +28,7 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI cureResultText; //temp for playtest 2
 
+    public bool IsViewingPauseMenu() { return viewPauseMenu; }
     public bool IsViewingScreen() { return viewingAlchemy || viewingPatient || viewingMerchant; }
     public bool IsViewingAlchemy() { return viewingAlchemy; }
     public bool IsViewingPatient() { return viewingPatient; }

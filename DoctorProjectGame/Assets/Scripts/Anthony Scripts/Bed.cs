@@ -110,12 +110,29 @@ public class Bed : MonoBehaviour
         }
     }
 
+    private void PassTutorial()
+    {
+        if (MainTutorial.Instance != null)
+        {
+            if (MainTutorial.Instance.enableTutorial)
+            {
+                switch (MainTutorial.Instance.currentStage)
+                {
+                    case 0:
+                        MainTutorial.Instance.PassCurrentStage();
+                        break;
+                }
+            }
+        }
+    }
+
     private void ViewPatient()
     {
         if (Input.GetKeyDown(KeyCode.F) && IsContactWithPatient() && !CheckPlayerIsViewing())
         {
             if (!CheckCurrentlyViewingScreen())
             {
+                PassTutorial();
                 ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, checkMarks, notes, patient.dialogue);
                 BedManager.Instance.SetActiveBed(this);
             }
