@@ -5707,8 +5707,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: " A,D Key - Move\n Q Key - Open Journal\n F Key - Pick up/return chart
-    from bed\n E Key - Open picked-up chart\n Spacebar - Interact with bed/patient\n
-    Spacebar - Leave Alchemy room\n ESC - quit app"
+    from bed\n E Key - Open picked-up chart\n Spacebar - Interact with bed/patient\nSpacebar
+    - Leave Alchemy room\n ESC - quit app"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7302,9 +7302,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1108445587}
-        m_TargetAssemblyTypeName: Cauldron, Assembly-CSharp
-        m_MethodName: BoilIngredient
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: playSound, Assembly-CSharp
+        m_MethodName: playAudio
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10078,6 +10078,7 @@ MonoBehaviour:
   patientNameText: {fileID: 1667173942}
   patientSymptomText: {fileID: 677058282}
   patientInfoText: {fileID: 1661524776}
+  pauseMenuCanvas: {fileID: 0}
   alchemyCanvas: {fileID: 1865575388}
   merchantCanvas: {fileID: 0}
   dialogueCanvas: {fileID: 1071516961}
