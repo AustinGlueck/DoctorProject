@@ -13,7 +13,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private Image patientSprite;
     [SerializeField] private TextMeshProUGUI patientNameText;
     [SerializeField] private GameObject patientSymptomsContent;
-    [SerializeField] private TextMeshProUGUI patientInfoText;
+    [SerializeField] private TMP_InputField patientInputField;
 
     private bool viewPauseMenu = false;
     private bool viewingPatient = false;
@@ -114,7 +114,7 @@ public class ScreenManager : MonoBehaviour
                 for (int i = 1; i < checkMarks.Count; i++)
                     patientSymptomText.text += "\n" + "- " + checkMarks[i].symptomName;
             }*/
-            patientInfoText.text = info;
+            if(info != null) patientInputField.text = info;
             patientSprite.sprite = spr;
             patientScreen.gameObject.SetActive(true);
             JournalAndChart.Instance.ToggleButtons();
@@ -130,6 +130,7 @@ public class ScreenManager : MonoBehaviour
         if (viewingPatient)
         {
             SaveToggleListToBed();
+            SaveNotes();
             patientScreen.gameObject.SetActive(false);
             blackBackground.SetActive(false);
             PlayerController.Instance.SetPlayerMovement(true);
@@ -152,6 +153,12 @@ public class ScreenManager : MonoBehaviour
         
         Bed currentBed = BedManager.Instance.GetActiveBed();
         currentBed.SetCheckMarks(newBoolList);
+    }
+
+    private void SaveNotes()
+    {
+        Bed currentBed = BedManager.Instance.GetActiveBed();
+        currentBed.SetNotes(patientInputField.text);
     }
 
     public void EnterAlchemyScreen()
