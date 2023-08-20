@@ -35,5 +35,11 @@ public class playAudio : MonoBehaviour
             keySoundClick.Play();
         }
     }
+
+    // Remember to drag audio to button 
+    public void playAlchemyAudio(AudioSource source)
+    {
+        source.Play();
+    }
 }
 
