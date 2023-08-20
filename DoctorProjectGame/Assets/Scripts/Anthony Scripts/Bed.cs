@@ -12,7 +12,8 @@ public class Bed : MonoBehaviour
     private List<bool> checkMarks = new List<bool>();
     private int maxSymptoms = 3;//revisit to streamline
     public void SetCheckMarks(List<bool> checkMarks) { this.checkMarks = checkMarks; }
-    public string notes = "info"; //revisit
+    private string notes; //revisit
+    public void SetNotes(string notes) { this.notes = notes; }
     [SerializeField] private bool hasPatient = false;
 
     //Chart

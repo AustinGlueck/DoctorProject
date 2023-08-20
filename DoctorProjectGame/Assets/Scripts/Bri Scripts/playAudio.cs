@@ -6,7 +6,7 @@ public class playAudio : MonoBehaviour
 {
     public AudioSource keySoundQ;
     public AudioSource keySoundE;
-    public AudioSource keySoundF;
+    public AudioSource keySoundG;
     public AudioSource keySoundClick;
 
     // Start is called before the first frame update
@@ -22,13 +22,13 @@ public class playAudio : MonoBehaviour
         {
             keySoundQ.Play();
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             keySoundE.Play();
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            keySoundF.Play();
+            keySoundG.Play();
         }
         if (Input.GetMouseButtonDown(0) == true)
         {
