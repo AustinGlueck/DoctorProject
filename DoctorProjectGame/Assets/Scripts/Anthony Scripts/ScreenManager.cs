@@ -10,7 +10,7 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] private GameObject blackBackground;
 
-    [SerializeField] private Image patientScreen;
+    [SerializeField] private GameObject patientScreen;
     [SerializeField] private GameObject patient; // Austin
     [SerializeField] private Image patientSprite;
 
