@@ -13,8 +13,8 @@ public class JournalAndChart : MonoBehaviour
     //Chart
     [SerializeField] private Image chartObject;
     [SerializeField] private TextMeshProUGUI chartObjectName;
-    [SerializeField] private TextMeshProUGUI chartObjectSymptoms;
-    [SerializeField] private TextMeshProUGUI chartObjectInfo;
+    [SerializeField] private GameObject patientSymptomsContent;
+    [SerializeField] private TMP_InputField patientInputField;
     [SerializeField] private bool holdingChart = false;
     private bool viewingChart = false;
     public bool GetHoldingChart() { return holdingChart; }
@@ -50,26 +50,44 @@ public class JournalAndChart : MonoBehaviour
         chartButtonImageUI.color = greyedOutColor;
     }
 
-    public void SetChartData(string name, List<Disease.Symptom> symptoms, string info)
+    public void SetChartData(string name, List<bool> checkMarks, string info)
     {
-        if (name == null && symptoms == null && info == null)
+        if (name == null && checkMarks == null && info == null)
         {
             chartObjectName.text = "";
-            chartObjectSymptoms.text = "";
-            chartObjectInfo.text = "";
+            Toggle[] toggleList1 = patientSymptomsContent.GetComponentsInChildren<Toggle>();
+            for (int i = 0; i < toggleList1.Length; i++)
+            {
+                toggleList1[i].isOn = false;
+            }
+            patientInputField.text = "";
             return;
         }
 
         chartObjectName.text = name;
-        chartObjectSymptoms.text = "- " + symptoms[0].symptomName;
-        if (symptoms.Count > 1)
+        Toggle[] toggleList = patientSymptomsContent.GetComponentsInChildren<Toggle>();
+        for (int i = 0; i < toggleList.Length; i++)
         {
-            for (int i = 1; i < symptoms.Count; i++)
-            {
-                chartObjectSymptoms.text += "\n" + "- " + symptoms[i].symptomName;
-            }
+            toggleList[i].isOn = checkMarks[i];
         }
-        chartObjectInfo.text = info;
+        patientInputField.text = info;
+    }
+
+    public void SaveToggleListToBed(Bed bed)
+    {
+        Toggle[] toggleList = patientSymptomsContent.GetComponentsInChildren<Toggle>();
+        List<bool> newBoolList = new List<bool>();
+        for (int tl = 0; tl < toggleList.Length; tl++)
+        {
+            newBoolList.Add(toggleList[tl].isOn);
+        }
+
+        bed.SetCheckMarks(newBoolList);
+    }
+
+    public void SaveNotes(Bed bed)
+    {
+        bed.SetNotes(patientInputField.text);
     }
 
     private void Update()
