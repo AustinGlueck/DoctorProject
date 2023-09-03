@@ -178,5 +178,22 @@ public class DialogueMaster : MonoBehaviour
         {
            responseTexts[i].text = dialogue.NPCDialogues[nextResponse].responses[i].reply;
         }*/
-    } 
+    }
+
+    ///For tutorial (by Anthony)
+    public void PassTutorial()
+    {
+        if (MainTutorial.Instance != null)
+        {
+            if (MainTutorial.Instance.enableTutorial)
+            {
+                switch (MainTutorial.Instance.currentStage)
+                {
+                    case 1:
+                        MainTutorial.Instance.PassCurrentStage();
+                        break;
+                }
+            }
+        }
+    }
 }

@@ -31,10 +31,11 @@ public class MerchantManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        //For Testing
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             SetupMerchant();
-        }
+        }*/
     }
 
     public void SetupMerchant()

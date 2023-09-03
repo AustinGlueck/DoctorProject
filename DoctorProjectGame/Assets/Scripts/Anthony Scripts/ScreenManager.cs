@@ -9,12 +9,14 @@ public class ScreenManager : MonoBehaviour
     public static ScreenManager Instance { get; private set; }
 
     [SerializeField] private GameObject blackBackground;
+
     [SerializeField] private Image patientScreen;
     [SerializeField] private GameObject patient; // Austin
-    [SerializeField] private Image patientScreenChart;
+    [SerializeField] private Image patientSprite;
+
     [SerializeField] private TextMeshProUGUI patientNameText;
-    [SerializeField] private TextMeshProUGUI patientSymptomText;
-    [SerializeField] private TextMeshProUGUI patientInfoText;
+    [SerializeField] private GameObject patientSymptomsContent;
+    [SerializeField] private TMP_InputField patientInputField;
 
     private bool viewPauseMenu = false;
     private bool viewingPatient = false;
@@ -30,7 +32,8 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cureResultText; //temp for playtest 2
 
     private PatientGraphicsHandler activePatientGraphics; // Austin - This is a cache for the active patient graphic, so we can destroy it when the player stops looking at that patient.
-
+    
+    public bool IsViewingPauseMenu() { return viewPauseMenu; }
     public bool IsViewingScreen() { return viewingAlchemy || viewingPatient || viewingMerchant; }
     public bool IsViewingAlchemy() { return viewingAlchemy; }
     public bool IsViewingPatient() { return viewingPatient; }
@@ -42,7 +45,7 @@ public class ScreenManager : MonoBehaviour
         blackBackground.SetActive(false);
         if(pauseMenuCanvas) pauseMenuCanvas.gameObject.SetActive(false);
         patientScreen.gameObject.SetActive(false);
-        patientScreenChart.gameObject.SetActive(false);
+
         alchemyCanvas.gameObject.SetActive(false);
         //merchantCanvas.gameObject.SetActive(false);
         if(dialogueCanvas) dialogueCanvas.SetActive(false);
@@ -52,27 +55,27 @@ public class ScreenManager : MonoBehaviour
 
     private void Update()
     {
-        // temporary exiting for alchemy screen
-        if (Input.GetKeyDown(KeyCode.Space) && viewingAlchemy)
-        {
-            ExitAlchemyScreen();
-        }
+        EscapeKeyBindings();
+    }
 
-        PauseMenu();
+    private void EscapeKeyBindings()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseMenu();
+            BackOutOfCurrentScreen();
+        }
     }
 
     private void PauseMenu()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenuCanvas)
-        {
-            TogglePause();
-        }
+        if (pauseMenuCanvas && !IsViewingScreen()) TogglePause();
     }
 
     public void TogglePause()
     {
         viewPauseMenu = !viewPauseMenu;
-        print(viewPauseMenu);
+        //print(viewPauseMenu);
         PlayerController.Instance.SetPlayerMovement(!viewPauseMenu);
         pauseMenuCanvas.gameObject.SetActive(viewPauseMenu);
     }
@@ -82,7 +85,19 @@ public class ScreenManager : MonoBehaviour
         MySceneManager.Instance.QuitDesktopApp();
     }
 
-    public void ViewPatientScreen(Sprite spr, string name, List<Disease.Symptom> symptoms, string info, DialogueScriptableObject dialogue, PatientGraphicsHandler graphicsHandler)
+    public void BackOutOfCurrentScreen()
+    {
+        if (viewingPatient && TutorialCheck())
+        {
+            ResetPatientScreen();
+        }
+        else if (viewingAlchemy)
+        {
+            ExitAlchemyScreen();
+        }
+    }
+
+    public void ViewPatientScreen(Sprite spr, string name, List<bool> checkMarks, string info, DialogueScriptableObject dialogue, PatientGraphicsHandler graphicsHandler)
     {
         if (!viewingPatient && !CheckPlayerIsViewingChart())
         {
@@ -91,16 +106,24 @@ public class ScreenManager : MonoBehaviour
             blackBackground.SetActive(true);
 
             patientNameText.text = name;
-            patientSymptomText.text = "- " + symptoms[0].symptomName;
-            if (symptoms.Count > 1)
+            Toggle[] toggleList = patientSymptomsContent.GetComponentsInChildren<Toggle>();
+            for (int i=0; i<toggleList.Length; i++)
             {
-                for (int i = 1; i < symptoms.Count; i++)
-                    patientSymptomText.text += "\n" + "- " + symptoms[i].symptomName;
+                toggleList[i].isOn = checkMarks[i];
             }
-            patientInfoText.text = info;
-            patientScreenChart.gameObject.SetActive(true);
-            patientScreen.sprite = spr;
+
+            //old way of displaying symptoms
+            /*patientSymptomText.text = "- " + checkMarks[0].symptomName;
+            if (checkMarks.Count > 1)
+            {
+                for (int i = 1; i < checkMarks.Count; i++)
+                    patientSymptomText.text += "\n" + "- " + checkMarks[i].symptomName;
+            }*/
+            if(info != null) patientInputField.text = info;
+            patientSprite.sprite = spr;
             patientScreen.gameObject.SetActive(true);
+            JournalAndChart.Instance.ToggleButtons();
+
             dialogueCanvas.SetActive(true); // Austin
             dialogueMaster.dialogue = dialogue;
             dialogueMaster.Startup(); // Austin
@@ -118,16 +141,40 @@ public class ScreenManager : MonoBehaviour
     {
         if (viewingPatient)
         {
+            SaveToggleListToBed();
+            SaveNotes();
             patientScreen.gameObject.SetActive(false);
-            patientScreenChart.gameObject.SetActive(false);
-            //patientScreenChart.sprite = null;
             blackBackground.SetActive(false);
             PlayerController.Instance.SetPlayerMovement(true);
+            BedManager.Instance.SetActiveBed(null);
             viewingPatient = false;
+
             dialogueCanvas.SetActive(false); // Austin
             activePatientGraphics.DestroyGraphics(); // Austin
+
             JournalAndChart.Instance.ToggleButtons();
+
+            dialogueCanvas.SetActive(false); // Austin
         }
+    }
+
+    private void SaveToggleListToBed()
+    {
+        Toggle[] toggleList = patientSymptomsContent.GetComponentsInChildren<Toggle>();
+        List<bool> newBoolList = new List<bool>();
+        for (int tl=0; tl < toggleList.Length; tl++)
+        {
+            newBoolList.Add(toggleList[tl].isOn);
+        }
+        
+        Bed currentBed = BedManager.Instance.GetActiveBed();
+        currentBed.SetCheckMarks(newBoolList);
+    }
+
+    private void SaveNotes()
+    {
+        Bed currentBed = BedManager.Instance.GetActiveBed();
+        currentBed.SetNotes(patientInputField.text);
     }
 
     public void EnterAlchemyScreen()
@@ -204,5 +251,33 @@ public class ScreenManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         //yield return null;
+    }
+
+    public void PassTutorialChart()
+    {
+        if (MainTutorial.Instance != null)
+        {
+            if (MainTutorial.Instance.enableTutorial)
+            {
+                switch (MainTutorial.Instance.currentStage)
+                {
+                    case 2:
+                        MainTutorial.Instance.PassCurrentStage();
+                        break;
+                }
+            }
+        }
+    }
+
+    private bool TutorialCheck()
+    {
+        if (MainTutorial.Instance != null)
+        {
+            return MainTutorial.Instance.enableTutorial && MainTutorial.Instance.currentStage == 3;
+        }
+        else
+        {
+            return true;
+        }
     }
 }
