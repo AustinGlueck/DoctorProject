@@ -11,6 +11,8 @@ public class MainTutorial : MonoBehaviour
     private List<bool> stages = new List<bool>();
     public int currentStage = 0;
     [SerializeField] private TutorialObject interactBedObj;
+    [SerializeField] private TutorialObject interactDialogueObj;
+    [SerializeField] private TutorialObject interactChartObj;
 
     [Serializable]
     public class TutorialObject
@@ -40,6 +42,8 @@ public class MainTutorial : MonoBehaviour
         if (!enableTutorial)
         {
             interactBedObj.Disable();
+            interactDialogueObj.Disable();
+            interactChartObj.Disable();
         }
     }
 
@@ -53,6 +57,8 @@ public class MainTutorial : MonoBehaviour
         if (enableTutorial)
         {
             InteractWithBed();
+            DiagnosisPatient();
+            TakeNotesOnChart();
         }
     }
 
@@ -67,7 +73,7 @@ public class MainTutorial : MonoBehaviour
     }
 
     //stages
-    private void InteractWithBed()
+    private void InteractWithBed() //0
     {
         if (currentStage == 0)
         {
@@ -81,17 +87,35 @@ public class MainTutorial : MonoBehaviour
         }
     }
 
-    private void DiagnosisPatient()
+    private void DiagnosisPatient() //1
     {
+        if (currentStage == 1)
+        {
+            interactDialogueObj.Enable();
 
+            if (stages[currentStage] == true)
+            {
+                interactDialogueObj.Disable();
+                NextStage();
+            }
+        }
     }
 
-    private void TakeNotesOnChart()
+    private void TakeNotesOnChart() //2
     {
+        if (currentStage == 2)
+        {
+            interactChartObj.Enable();
 
+            if (stages[currentStage] == true)
+            {
+                interactChartObj.Disable();
+                NextStage();
+            }
+        }
     }
 
-    private void OpenJournal()
+    private void OpenJournal() //3
     {
 
     }

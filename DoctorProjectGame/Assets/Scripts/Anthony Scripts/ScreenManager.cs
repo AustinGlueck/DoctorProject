@@ -82,7 +82,7 @@ public class ScreenManager : MonoBehaviour
 
     public void BackOutOfCurrentScreen()
     {
-        if (viewingPatient)
+        if (viewingPatient && TutorialCheck())
         {
             ResetPatientScreen();
         }
@@ -235,5 +235,33 @@ public class ScreenManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         //yield return null;
+    }
+
+    public void PassTutorialChart()
+    {
+        if (MainTutorial.Instance != null)
+        {
+            if (MainTutorial.Instance.enableTutorial)
+            {
+                switch (MainTutorial.Instance.currentStage)
+                {
+                    case 2:
+                        MainTutorial.Instance.PassCurrentStage();
+                        break;
+                }
+            }
+        }
+    }
+
+    private bool TutorialCheck()
+    {
+        if (MainTutorial.Instance != null)
+        {
+            return MainTutorial.Instance.enableTutorial && MainTutorial.Instance.currentStage == 3;
+        }
+        else
+        {
+            return true;
+        }
     }
 }

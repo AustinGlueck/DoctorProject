@@ -93,7 +93,7 @@ AnimationClip:
   - time: 0.11111111
     functionName: playAudio
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 0ca932740137f7e46b4cd2ec385a6e98, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

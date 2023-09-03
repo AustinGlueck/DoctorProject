@@ -137,7 +137,7 @@ public class Bed : MonoBehaviour
                 ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, checkMarks, notes, patient.dialogue);
                 BedManager.Instance.SetActiveBed(this);
             }
-            else if (CheckCurrentlyViewingScreen())
+            else if (CheckCurrentlyViewingScreen() && TutorialCheck())
             {
                 ScreenManager.Instance.ResetPatientScreen();
             }
@@ -168,4 +168,16 @@ public class Bed : MonoBehaviour
     private bool CheckPlayerIsHoldingChart() { return JournalAndChart.Instance.GetHoldingChart(); }
     private bool CheckPlayerIsViewing() { return JournalAndChart.Instance.IsViewing(); }
     private bool CheckCurrentlyViewingScreen() { return ScreenManager.Instance.IsViewingScreen(); }
+
+    private bool TutorialCheck()
+    {
+        if (MainTutorial.Instance != null)
+        {
+            return MainTutorial.Instance.enableTutorial && MainTutorial.Instance.currentStage == 3;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }
