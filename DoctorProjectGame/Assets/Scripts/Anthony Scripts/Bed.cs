@@ -134,7 +134,7 @@ public class Bed : MonoBehaviour
             if (!CheckCurrentlyViewingScreen())
             {
                 PassTutorial();
-                ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, checkMarks, notes, patient.dialogue);
+                ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, checkMarks, notes, patient.dialogue, patient.gameObject.GetComponent<PatientGraphicsHandler>());
                 BedManager.Instance.SetActiveBed(this);
             }
             else if (CheckCurrentlyViewingScreen() && TutorialCheck())

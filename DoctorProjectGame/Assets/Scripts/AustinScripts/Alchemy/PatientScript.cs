@@ -8,12 +8,38 @@ public class PatientScript : MonoBehaviour
     public DialogueScriptableObject dialogue;
     public string patientName;
     public List<Disease.Symptom> symptoms;
+    private PatientGraphicsHandler patientGraphicsHandler;
 
     void Start()
     {
+        patientGraphicsHandler = gameObject.GetComponent<PatientGraphicsHandler>();
+
         foreach(Disease.Symptom symptom in disease.symptoms)
         {
             symptoms.Add(symptom);
+            if(symptom.diseaseGraphic != null)
+            {
+                if (symptom.symptomGraphicType == Disease.Symptom.SymptomGraphicType.none)
+                {
+                    patientGraphicsHandler.symptoms.Add(symptom.diseaseGraphic);
+                }
+                if(symptom.symptomGraphicType == Disease.Symptom.SymptomGraphicType.body)
+                {
+                    patientGraphicsHandler.bodyBase = symptom.diseaseGraphic;
+                }
+                if(symptom.symptomGraphicType == Disease.Symptom.SymptomGraphicType.eyes)
+                {
+                    patientGraphicsHandler.eyes = symptom.diseaseGraphic;
+                }
+                if(symptom.symptomGraphicType == Disease.Symptom.SymptomGraphicType.mouth)
+                {
+                    patientGraphicsHandler.mouth = symptom.diseaseGraphic;
+                }
+                if(symptom.symptomGraphicType == Disease.Symptom.SymptomGraphicType.nose)
+                {
+                    patientGraphicsHandler.nose = symptom.diseaseGraphic;
+                }
+            }
         }
     }
 

@@ -16,5 +16,13 @@ MonoBehaviour:
   symptoms:
   - symptomName: Fatigue
     symptomStrength: 0
+    diseaseGraphic: {fileID: 0}
+    replacesFeature: 0
   - symptomName: Shaky Hands
     symptomStrength: 0
+    diseaseGraphic: {fileID: 0}
+    replacesFeature: 0
+  - symptomName: Visible Veins
+    symptomStrength: 0
+    diseaseGraphic: {fileID: 0}
+    replacesFeature: 0
