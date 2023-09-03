@@ -105,7 +105,7 @@ public class Bed : MonoBehaviour
             if (!viewingPatient && !CheckCurrentlyViewingScreen())
             {
                 viewingPatient = true;
-                ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, patient.symptoms, patientInfo, patient.dialogue);
+                ScreenManager.Instance.ViewPatientScreen(patientSprite, patient.patientName, patient.symptoms, patientInfo, patient.dialogue, patient.gameObject.GetComponent<PatientGraphicsHandler>());//Austin - added graphics handler getcomponent, messy and ineffecient, let's take a look later.
             }
             else if (viewingPatient && CheckCurrentlyViewingScreen())
             {

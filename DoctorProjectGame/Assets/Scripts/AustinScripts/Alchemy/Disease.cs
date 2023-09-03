@@ -15,6 +15,9 @@ public class Disease : ScriptableObject
     {
         public string symptomName;
         public int symptomStrength;
+        public GameObject diseaseGraphic;
+        public enum SymptomGraphicType {none, body, eyes, mouth, nose}
+        public SymptomGraphicType symptomGraphicType;
     }
     // Start is called before the first frame update
     /*void Start()

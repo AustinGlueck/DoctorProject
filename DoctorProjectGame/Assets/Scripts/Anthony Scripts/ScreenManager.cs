@@ -10,6 +10,7 @@ public class ScreenManager : MonoBehaviour
 
     [SerializeField] private GameObject blackBackground;
     [SerializeField] private Image patientScreen;
+    [SerializeField] private GameObject patient; // Austin
     [SerializeField] private Image patientScreenChart;
     [SerializeField] private TextMeshProUGUI patientNameText;
     [SerializeField] private TextMeshProUGUI patientSymptomText;
@@ -27,6 +28,8 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private DialogueMaster dialogueMaster; // Austin
 
     [SerializeField] private TextMeshProUGUI cureResultText; //temp for playtest 2
+
+    private PatientGraphicsHandler activePatientGraphics; // Austin - This is a cache for the active patient graphic, so we can destroy it when the player stops looking at that patient.
 
     public bool IsViewingScreen() { return viewingAlchemy || viewingPatient || viewingMerchant; }
     public bool IsViewingAlchemy() { return viewingAlchemy; }
@@ -79,7 +82,7 @@ public class ScreenManager : MonoBehaviour
         MySceneManager.Instance.QuitDesktopApp();
     }
 
-    public void ViewPatientScreen(Sprite spr, string name, List<Disease.Symptom> symptoms, string info, DialogueScriptableObject dialogue)
+    public void ViewPatientScreen(Sprite spr, string name, List<Disease.Symptom> symptoms, string info, DialogueScriptableObject dialogue, PatientGraphicsHandler graphicsHandler)
     {
         if (!viewingPatient && !CheckPlayerIsViewingChart())
         {
@@ -101,6 +104,12 @@ public class ScreenManager : MonoBehaviour
             dialogueCanvas.SetActive(true); // Austin
             dialogueMaster.dialogue = dialogue;
             dialogueMaster.Startup(); // Austin
+
+            patient.SetActive(false); // Austin
+            activePatientGraphics = graphicsHandler; // Austin
+            graphicsHandler.InstantiateCharacter(); //Austin
+
+
             JournalAndChart.Instance.ToggleButtons();
         }
     }
@@ -116,6 +125,7 @@ public class ScreenManager : MonoBehaviour
             PlayerController.Instance.SetPlayerMovement(true);
             viewingPatient = false;
             dialogueCanvas.SetActive(false); // Austin
+            activePatientGraphics.DestroyGraphics(); // Austin
             JournalAndChart.Instance.ToggleButtons();
         }
     }

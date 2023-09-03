@@ -16,5 +16,13 @@ MonoBehaviour:
   symptoms:
   - symptomName: Coughing
     symptomStrength: 0
+    diseaseGraphic: {fileID: 0}
+    symptomGraphicType: 0
   - symptomName: Dizziness
     symptomStrength: 0
+    diseaseGraphic: {fileID: 0}
+    symptomGraphicType: 0
+  - symptomName: Visible Veins
+    symptomStrength: 0
+    diseaseGraphic: {fileID: 4142380557752721289, guid: 63d4b36c5101ab24ebba72205298c0ac, type: 3}
+    symptomGraphicType: 0
